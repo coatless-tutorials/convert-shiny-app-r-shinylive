@@ -1,5 +1,5 @@
 # Based on SO Question:
-# https://stackoverflow.com/questions/78153629/static-version-of-r-shiny-app-using-shinylive-package-failing-to-preload-package
+# https://stackoverflow.com/questions/78160039/using-shinylive-to-allow-deployment-of-r-shiny-apps-from-a-static-webserver-yiel
 
 # Load required libraries
 library(shiny)
