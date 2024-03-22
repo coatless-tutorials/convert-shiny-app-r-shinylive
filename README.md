@@ -10,7 +10,6 @@ Shinylive apps require around 60 MB or more data due to their dependency on the 
 
 You can inspect the current list of package dependencies for a basic Shiny app using the following R code:
 
-
 ```r
 pkg_db <- tools::CRAN_package_db()
 shiny_pkg_dependencies <- tools::package_dependencies(
@@ -114,6 +113,15 @@ jobs:
           uses: actions/deploy-pages@v2
 ```
 
+Deployment with this approach requires it to be enabled by:
+
+- Clicking on the repository's **Settings** page
+- Selecting **Pages** on the left sidebar.
+- Picking the **GitHub Actions** option in the **Source** drop-down under the Build and Deployment section.
+- Ensuring that **Enforced HTTPS** is checked. 
+
+[![Example annotation of the repository's Settings page for GitHub Actions deployment][1]][1]
+
 
 ## Working Example
 
@@ -124,10 +132,11 @@ For a comprehensive example demonstrating deployment, documentation, and a funct
 
 Some quick screenshots that describe whats up:
 
-[![Example of the working shinylive app][1]][1]
+[![Example of the working shinylive app][2]][2]
 
-[![Summary of the deployment of the shinylive app][2]][2]
+[![Summary of the deployment of the shinylive app][3]][3]
 
 
-  [1]: https://i.stack.imgur.com/DQ3Z1.jpg
-  [2]: https://i.stack.imgur.com/Gzzy8.jpg
+  [1]: https://i.stack.imgur.com/kF2pf.jpg
+  [2]: https://i.stack.imgur.com/DQ3Z1.jpg
+  [3]: https://i.stack.imgur.com/Gzzy8.jpg
