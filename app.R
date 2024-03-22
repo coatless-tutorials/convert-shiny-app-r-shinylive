@@ -18,7 +18,8 @@ ui <- fluidPage(
       fileInput("file", "Choose CSV File", accept = ".csv"),
       tags$hr(),
       checkboxInput("header", "Header", TRUE),
-      checkboxInput("stringAsFactors", "Convert strings to factors", TRUE)
+      checkboxInput("stringAsFactors", "Convert strings to factors", TRUE),
+      tags$a(href = "https://github.com/coatless-tutorials/convert-shiny-app-r-shinylive", "See source on GitHub!")
     ),
     
     # Show CSV data
