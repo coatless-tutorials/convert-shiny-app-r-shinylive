@@ -113,7 +113,30 @@ jobs:
           uses: actions/deploy-pages@v2
 ```
 
-Deployment with this approach requires it to be enabled by:
+> [!NOTE]
+>
+> We make an assumption when exporting the Shiny app about:
+>
+> 1. the app can be found in the working directory, e.g. `.`
+> 2. the deployment folder is `_site`
+> 
+> If this is not the case, please modified the step in the deployment recipe
+> that contains: 
+>
+> ```r
+> shinylive::export(".", "_site")
+> ```
+>
+
+> [!NOTE]
+>
+> The output directory of `_site` for the converted shinylive app
+> is used since it is the default path location for the
+> [`upload-pages-artifact`](https://github.com/actions/upload-pages-artifact)
+> action. This can be changed by supplying `path` parameter under `with` in the
+> "Upload Pages artifact" step.
+
+Deployment through the GitHub Actions to GitHub Pages requires it to be enabled on the repository by:
 
 - Clicking on the repository's **Settings** page
 - Selecting **Pages** on the left sidebar.
@@ -125,10 +148,9 @@ Deployment with this approach requires it to be enabled by:
 
 ## Working Example
 
-For a comprehensive example demonstrating deployment, documentation, and a functional version of your app, refer to the following:
+You can view the example shinylive-ified [app.R](app.R) source included in the repository here:
 
-- Repository: https://github.com/coatless-tutorials/convert-shiny-app-r-shinylive
-- Deployed shiny app: https://tutorials.thecoatlessprofessor.com/convert-shiny-app-r-shinylive/
+<https://tutorials.thecoatlessprofessor.com/convert-shiny-app-r-shinylive>
 
 Some quick screenshots that describe whats up:
 
