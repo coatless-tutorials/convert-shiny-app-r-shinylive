@@ -2,7 +2,11 @@
 
 This repository demonstrates how to deploy an R Shinylive app using GitHub Actions and GitHub Pages.
 
-The initial app source code is from a [StackOverflow Question](https://stackoverflow.com/questions/78160039/using-shinylive-to-allow-deployment-of-r-shiny-apps-from-a-static-webserver-yiel) by [Faustin Gashakamba](https://stackoverflow.com/users/5618354/faustin-gashakamba).
+If you're interested in a Python version, you can find it: [here](https://github.com/coatless-tutorials/convert-py-shiny-app-to-py-shinylive-app).
+
+## Background
+
+The initial app source code is from a [StackOverflow Question](https://stackoverflow.com/questions/78160039/using-shinylive-to-allow-deployment-of-r-shiny-apps-from-a-static-webserver-yiel) by [Faustin Gashakamba](https://stackoverflow.com/users/5618354/faustin-gashakamba)
 
 ## Shinylive App Size
 
@@ -35,11 +39,15 @@ Adding more R packages through in-app dependencies will expand this list and inc
 
 ## Deploying Automatically with GitHub Actions
 
-Please **avoid** using the [`gh-pages` branch deployment technique](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch) for sharing the app on GitHub pages. 
+### Serving a Website from a GitHub Repository
+
+One of the standard approaches when working with web deployment is to use the [`gh-pages` branch deployment technique](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch). However, this approach is problematic for sharing the app on GitHub pages since you can quickly bloat the size of the repository with binary data, which impacts being able to quickly clone the repository and decreases the working efficiency.
 
 Instead, opt for the [GitHub Actions approach](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow), which is preferred because it doesn't store artifacts from converting a Shiny App into a Shinylive App inside the repository. Plus, this approach allows for Shinylive apps to be deployed up to the [GitHub Pages maximum of about 1 GB](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#usage-limits). 
 
-Specifically, we're advocating for a file structure of: 
+### Project Layout
+
+For this to work, we're advocating for a repository structure of: 
 
 ```sh
 .
@@ -50,7 +58,11 @@ Specifically, we're advocating for a file structure of:
 └── app.R
 ```
 
-Thus, we could place the example app source code into `app.R` and, then, use the following GitHub Action in `.github/workflows/build-and-deploy-shinylive-r-app.yml` to build and deploy the shinylive app every time the repository is updated:
+The source for the R Shiny app can be placed into the [`app.R`](app.R) file and, then, use the following GitHub Action in `.github/workflows/build-and-deploy-shinylive-r-app.yml` to build and deploy the shinylive app every time the repository is updated.
+
+## GitHub Action Workflow for Converting and Deploying
+
+The following workflow contains a single step that encompasses both the build and deploy phases. For more details about customizing the conversion step or the deployment step, please see the two notes that immediately follow from the workflow.
 
 ```yaml
 on:
@@ -84,15 +96,16 @@ jobs:
           uses: r-lib/actions/setup-r@v2
   
         # Install and pin the shinylive R package dependency
+        # to the current version on CRAN
         - name: "Setup R dependency for Shinylive App export"
           uses: r-lib/actions/setup-r-dependencies@v2
           with:
             packages:
-              cran::shinylive@0.1.1
+              cran::shinylive
   
         # Export the current working directory as the shiny app
         # using the pinned version of the Shinylive R package
-        - name: Create Shinylive App from working directory files
+        - name: Create R Shinylive App from working directory files
           shell: Rscript {0}
           run: |
            shinylive::export(".", "_site")
@@ -113,30 +126,38 @@ jobs:
           uses: actions/deploy-pages@v2
 ```
 
-> [!NOTE]
->
-> We make an assumption when exporting the Shiny app about:
->
-> 1. the app can be found in the working directory, e.g. `.`
-> 2. the deployment folder is `_site`
-> 
-> If this is not the case, please modified the step in the deployment recipe
-> that contains: 
->
-> ```r
-> shinylive::export(".", "_site")
-> ```
->
 
-> [!NOTE]
->
-> The output directory of `_site` for the converted shinylive app
-> is used since it is the default path location for the
-> [`upload-pages-artifact`](https://github.com/actions/upload-pages-artifact)
-> action. This can be changed by supplying `path` parameter under `with` in the
-> "Upload Pages artifact" step.
+#### Conversion Assumptions
 
-Deployment through the GitHub Actions to GitHub Pages requires it to be enabled on the repository by:
+When exporting the R Shiny app, we assume:
+
+1. The app is located in the working directory, denoted by `.`.
+2. The deployment folder or what should be shown on the web is `_site`.
+
+If these assumptions don't align with your setup, please modify the conversion step accordingly.
+
+```yaml
+  - name: Create R Shinylive App from working directory files
+    shell: Rscript {0}
+    run: |
+      shinylive::export(".", "_site")
+```
+
+#### Customize Deployment Path
+
+The output directory `_site` for the converted Shinylive app is used as it's the default path for the [`upload-pages-artifact`](https://github.com/actions/upload-pages-artifact) action. You can change this by supplying a `path` parameter under `with` in the "Upload Pages artifact" step, e.g.
+
+```yaml
+- name: Upload Pages artifact
+  uses: actions/upload-pages-artifact@v2
+  with: 
+    retention-days: 1
+    path: "new-path-here"
+```
+
+## Enabling GitHub Pages Deployment
+
+To enable deployment through GitHub Actions to GitHub Pages, please enable it on the repository by:
 
 - Clicking on the repository's **Settings** page
 - Selecting **Pages** on the left sidebar.
@@ -145,19 +166,26 @@ Deployment through the GitHub Actions to GitHub Pages requires it to be enabled 
 
 [![Example annotation of the repository's Settings page for GitHub Actions deployment][1]][1]
 
-
 ## Working Example
 
 You can view the example shinylive-ified [app.R](app.R) source included in the repository here:
 
 <https://tutorials.thecoatlessprofessor.com/convert-shiny-app-r-shinylive>
 
-Some quick screenshots that describe whats up:
+Keep in mind that the exported app size is not mobile-friendly (approximately 66.8 MB).
+
+If you are data constrained, you can see the app in this screenshot: 
 
 [![Example of the working shinylive app][2]][2]
 
+Moreover, you can view one of the deployments app's commit size here: 
+
 [![Summary of the deployment of the shinylive app][3]][3]
 
+# Fin
+
+Huzzah! You've successfully learned how to deploy an R Shinylive app via GitHub Pages using GitHub Actions.
+Now, unleash your creativity and start building!
 
   [1]: https://i.stack.imgur.com/kF2pf.jpg
   [2]: https://i.stack.imgur.com/DQ3Z1.jpg

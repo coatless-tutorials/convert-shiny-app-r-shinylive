@@ -33,7 +33,7 @@ jobs:
           uses: r-lib/actions/setup-r-dependencies@v2
           with:
             packages:
-              cran::shinylive@0.1.1
+              cran::shinylive
   
         # Export the current working directory as the shiny app
         # using the pinned version of the Shinylive R package
