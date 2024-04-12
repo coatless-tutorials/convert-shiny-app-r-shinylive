@@ -4,6 +4,8 @@ This repository demonstrates how to deploy an R Shinylive app using GitHub Actio
 
 If you're interested in a Python version, you can find it: [here](https://github.com/coatless-tutorials/convert-py-shiny-app-to-py-shinylive-app).
 
+Or, if you want to learn about creating an R Shinylive dashboard, click [here](https://github.com/coatless-tutorials/r-shinylive-dashboard-app).
+
 ## Background
 
 The initial app source code is from a [StackOverflow Question](https://stackoverflow.com/questions/78160039/using-shinylive-to-allow-deployment-of-r-shiny-apps-from-a-static-webserver-yiel) by [Faustin Gashakamba](https://stackoverflow.com/users/5618354/faustin-gashakamba)
