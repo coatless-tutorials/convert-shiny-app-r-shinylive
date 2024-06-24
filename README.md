@@ -189,6 +189,6 @@ Moreover, you can view one of the deployments app's commit size here:
 Huzzah! You've successfully learned how to deploy an R Shinylive app via GitHub Pages using GitHub Actions.
 Now, unleash your creativity and start building!
 
-  [1]: https://i.stack.imgur.com/kF2pf.jpg
-  [2]: https://i.stack.imgur.com/DQ3Z1.jpg
-  [3]: https://i.stack.imgur.com/Gzzy8.jpg
+  [1]: https://github.com/coatless-tutorials/convert-shiny-app-r-shinylive/assets/833642/b9fff36a-26c6-4b8e-bb6c-ea4b3d6fe811
+  [2]: https://github.com/coatless-tutorials/convert-shiny-app-r-shinylive/assets/833642/245ed1f4-9343-4d30-b395-a954c8d85f08
+  [3]: https://github.com/coatless-tutorials/convert-shiny-app-r-shinylive/assets/833642/bdd270b7-c4ae-4669-bae7-9abc6b4edce7
