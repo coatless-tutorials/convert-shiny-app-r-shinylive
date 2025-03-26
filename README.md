@@ -1,10 +1,30 @@
 # Deploying an R Shinylive App via GitHub Pages through GitHub Actions
 
-This repository demonstrates how to deploy an R Shinylive app using GitHub Actions and GitHub Pages.
+This repository demonstrates how to deploy an R Shinylive app using GitHub 
+Actions and GitHub Pages.
 
-If you're interested in a Python version, you can find it: [here](https://github.com/coatless-tutorials/convert-py-shiny-app-to-py-shinylive-app).
+> [!NOTE]
+>
+> Please note that this guide is **not** affiliated with Posit, Shiny,
+> or Shinylive project. It is a community-driven tutorial to help you get started
+> using Shinylive with R Shiny Applications. 
 
-Or, if you want to learn about creating an R Shinylive dashboard, click [here](https://github.com/coatless-tutorials/r-shinylive-dashboard-app).
+### Other Guides
+
+- [Creating an R Shinylive App inside a Quarto Document](https://github.com/coatless-quarto/r-shinylive-demo)
+- **Deploying an R Shinylive App via GitHub Pages through GitHub Actions**
+- [Data Inclusion in a Shinylive App](https://tutorials.thecoatlessprofessor.com/r-shinylive-data-include/)
+- [Deploying an R Shiny Dashboard App through R Shinylive](https://github.com/coatless-dashboard/r-shinylive-dashboard-app)
+- [Deploying a Python Shinylive App via GitHub Pages through GitHub Actions](https://github.com/coatless-tutorials/convert-py-shiny-app-to-py-shinylive-app)
+
+### Updates
+
+- **03/26/2025**
+  - We've fixed the version of the `shinylive` R package to v0.3.0 and 
+    updated the version of GitHub Actions to either v3 or v4 to avoid deprecation
+    warnings.
+- **03/22/2024**
+  - Initial release of the tutorial.
 
 ## Background
 
@@ -103,7 +123,7 @@ jobs:
           uses: r-lib/actions/setup-r-dependencies@v2
           with:
             packages:
-              cran::shinylive
+              cran::shinylive@0.3.0 ## Pin version to ensure consistency
   
         # Export the current working directory as the shiny app
         # using the pinned version of the Shinylive R package
@@ -116,7 +136,7 @@ jobs:
         # Make sure to set a retention day to avoid running into a cap
         # This artifact shouldn't be required after deployment onto pages was a success.
         - name: Upload Pages artifact
-          uses: actions/upload-pages-artifact@v2
+          uses: actions/upload-pages-artifact@v3
           with: 
             retention-days: 1
         
@@ -125,8 +145,21 @@ jobs:
         # instead of using `docs/` or the `gh-pages` branch of the repository
         - name: Deploy to GitHub Pages
           id: deployment
-          uses: actions/deploy-pages@v2
+          uses: actions/deploy-pages@v4
 ```
+
+> [!NOTE]
+>
+> We have pinned the version of shinylive package on CRAN to v0.3.0 to ensure 
+> consistency across deployments. If you want to use the latest version, please
+> remove the `## Pin version to ensure consistency` line from the
+> `Setup R dependency for Shinylive App export` step.
+
+> [!NOTE]
+>
+> GitHub Actions may require the `actions/upload-pages-artifact@v3` and 
+> `actions/deploy-pages@v4` actions to be updated to the later versions if
+> you encounter GitHub Action runner deprecation warnings.
 
 
 #### Conversion Assumptions
@@ -151,7 +184,7 @@ The output directory `_site` for the converted Shinylive app is used as it's the
 
 ```yaml
 - name: Upload Pages artifact
-  uses: actions/upload-pages-artifact@v2
+  uses: actions/upload-pages-artifact@v3
   with: 
     retention-days: 1
     path: "new-path-here"
