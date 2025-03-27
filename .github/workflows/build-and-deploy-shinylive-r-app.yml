@@ -28,14 +28,16 @@ jobs:
         - name: "Setup R"
           uses: r-lib/actions/setup-r@v2
   
-        # Install and pin the shinylive R package dependency
+        # Install dependency and pin the shinylive R package dependency
+        # to the current version on CRAN
         - name: "Setup R dependency for Shinylive App export"
           uses: r-lib/actions/setup-r-dependencies@v2
           with:
+            ## Install required dependencies from the DESCRIPTION file
+            ## Required for shinylive >= 0.3.0
             packages: |
-              cran::shinylive@0.3.0 ## Pin version to ensure consistency
-              local::.              ## Install required dependencies
-                                    ## Required for shinylive >= 0.3.0
+              cran::shinylive@0.3.0 
+              local::.
   
         # Export the current working directory as the shiny app
         # using the pinned version of the Shinylive R package
