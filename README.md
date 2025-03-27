@@ -77,10 +77,31 @@ For this to work, we're advocating for a repository structure of:
 │   └── workflows
 │       └── build-and-deploy-shinylive-r-app.yml
 ├── README.md
+├── DESCRIPTION  
 └── app.R
 ```
 
-The source for the R Shiny app can be placed into the [`app.R`](app.R) file and, then, use the following GitHub Action in `.github/workflows/build-and-deploy-shinylive-r-app.yml` to build and deploy the shinylive app every time the repository is updated.
+The source for the R Shiny app can be placed into the [`app.R`](app.R) file,
+the DESCRIPTION file can be used to specify the dependencies of the app,
+and, then, use the following GitHub Action in `.github/workflows/build-and-deploy-shinylive-r-app.yml` to build and deploy the shinylive app every time the repository is updated.
+
+## DESCRIPTION File
+
+The DESCRIPTION file is used to specify the dependencies of the app. For the
+example app, the DESCRIPTION file is as follows:
+
+```default
+Package: shinyliveconvertdemo
+Title: Demo converting an R Shiny application to Shinylive
+Version: 0.0.1
+Description: List the package dependencies here for the GitHub action to automatically
+  include the packages on the build. This is required for r-shinylive version >= 0.3.0.
+Imports: 
+    shiny,
+    shinythemes
+Encoding: UTF-8
+```
+
 
 ## GitHub Action Workflow for Converting and Deploying
 
@@ -124,6 +145,8 @@ jobs:
           with:
             packages:
               cran::shinylive@0.3.0 ## Pin version to ensure consistency
+              local::.              ## Install required dependencies
+                                    ## Required for shinylive >= 0.3.0
   
         # Export the current working directory as the shiny app
         # using the pinned version of the Shinylive R package

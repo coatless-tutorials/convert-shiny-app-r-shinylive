@@ -1,0 +1,20 @@
+Package: shinyliveconvertdemo
+Title: Demo converting an R Shiny application to Shinylive
+Version: 0.0.1
+Authors@R: c(
+    person("James Joseph", "Balamuta",
+            email = "james.balamuta@gmail.com", 
+            role = c("aut", "cre"),
+            comment = c(ORCID = "0000-0003-2826-8458")
+           )
+    )
+Description: List the package dependencies here for the GitHub action to automatically
+  include the packages on the build. This is required for r-shinylive version >= 0.3.0.
+URL: https://tutorials.thecoatlessprofessor.com/convert-shiny-app-r-shinylive/, https://github.com/coatless-tutorials/convert-shiny-app-r-shinylive
+BugReports: https://github.com/coatless-tutorials/convert-shiny-app-r-shinylive/issues
+License: MIT + file LICENSE
+Depends: R (>= 4.4)
+Imports: 
+    shiny,
+    shinythemes
+Encoding: UTF-8

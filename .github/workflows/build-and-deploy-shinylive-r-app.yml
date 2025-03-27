@@ -33,7 +33,9 @@ jobs:
           uses: r-lib/actions/setup-r-dependencies@v2
           with:
             packages:
-              cran::shinylive@0.3.0
+              cran::shinylive@0.3.0 ## Pin version to ensure consistency
+              local::.              ## Install required dependencies
+                                    ## Required for shinylive >= 0.3.0
   
         # Export the current working directory as the shiny app
         # using the pinned version of the Shinylive R package
